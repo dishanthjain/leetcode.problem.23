@@ -1,0 +1,34 @@
+Code:
+
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        priority_queue<ListNode*, vector<ListNode*>, 
+                       greater<ListNode*>> pq;
+
+        for (ListNode* list : lists) {
+            if (list)
+                pq.push(list);
+        }
+
+        ListNode dummy(0);
+        ListNode* current = &dummy;
+
+        while (!pq.empty()) {
+            ListNode* node = pq.top();
+            pq.pop();
+
+            current->next = node;
+            current = current->next;
+
+            if (node->next)
+                pq.push(node->next);
+        }
+
+        return dummy.next;
+    }
+};
+
+Explaination:
+
+The code uses a min-heap (priority queue) to always select the smallest node among all the lists. After adding a node to the result, its next node is added to the heap until all lists are merged.
